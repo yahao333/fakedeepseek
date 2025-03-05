@@ -9,7 +9,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === 'user';
   const contentRef = useRef<HTMLDivElement>(null);
   const [marginLeft, setMarginLeft] = useState(isUser ? '100px' : '0');
-  const [bgWidth, setBgWidth] = useState('auto');
+  const [bgWidth, setBgWidth] = useState('380px');
+  const [bgLeft, setBgLeft] = useState('80px');
 
   useEffect(() => {
     if (contentRef.current) {
@@ -23,12 +24,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         if (textWidth < containerWidth) {
           // 计算剩余空间并设置左边距
           const remainingSpace = containerWidth - textWidth - 12;
-          setMarginLeft(`${remainingSpace + 100}px`);
+          const newMarginLeft = remainingSpace + 100;
+          setMarginLeft(`${newMarginLeft}px`);
           setBgWidth(`${textWidth + 32}px`); // 32px 为左右padding的总和
+          setBgLeft(`${newMarginLeft - 20}px`); // 调整背景左边距，-20是为了补偿padding
         } else {
-          // 如果文本超过一行，使用默认值
+          // 如果文本超过一行，使用固定宽度
           setMarginLeft('100px');
-          setBgWidth('auto');
+          setBgWidth('380px'); // 使用固定的容器宽度
+          setBgLeft('80px');
         }
       }
     }
@@ -51,8 +55,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             className={`absolute -z-10 ${isUser ? 'chat-bg-layer' : ''}`}
             style={{
               bottom: '10px',
-              left: '80px',
-              width: isUser ? bgWidth : 'auto',
+              left: isUser ? bgLeft : '80px',
+              width: isUser ? bgWidth : '380px',
               height: '100%',
               borderRadius: '32px',
               padding: '16px'
