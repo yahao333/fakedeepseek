@@ -22,13 +22,13 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         <div className="relative">
           {/* 用户消息的椭圆背景 */}
           <div
-            className={`absolute -z-10 ${isUser ? 'bg-blue-500' : ''}`}
+            className={`absolute -z-10 ${isUser ? 'chat-bg-layer' : ''}`}
             style={{
-              bottom: '-10px',
-              left: '-10px',
-              right: '-10px',
+              bottom: '10px',
+              left: '80px',
+              right: '10px',
               height: '100%',
-              borderRadius: '16px',
+              borderRadius: '32px',
               padding: '16px'
             }}
           />

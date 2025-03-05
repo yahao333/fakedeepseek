@@ -111,6 +111,11 @@ export default function Home() {
         if (style.backgroundColor && style.backgroundColor !== 'rgba(0, 0, 0, 0)') {
           el.style.backgroundColor = '#ffffff';
         }
+
+        if (el.classList.contains('chat-bg-layer')) {
+          el.style.backgroundColor = '#EBF3FF';
+        }
+
         if (style.border) {
           el.style.border = 'none';
         }
