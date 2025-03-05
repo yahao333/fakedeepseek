@@ -1,15 +1,7 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Remove or comment out unused imports
+// import Image from "next/image"
+// import { GeistSans } from "geist/font/sans"
+// import { GeistMono } from "geist/font/mono"
 
 import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
