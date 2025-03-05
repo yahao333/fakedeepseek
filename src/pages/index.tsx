@@ -110,10 +110,19 @@ export default function Home() {
         images.mid.height + 
         images.bottom.height;
 
-      // 创建画布，确保最小高度为2412
+      // 检查是否超出最大高度
+      const maxHeight = 2412; // 最大允许高度
+      if (totalContentHeight > maxHeight) {
+        throw new Error(`聊天记录太长，超出最大高度限制。
+当前高度: ${totalContentHeight}px
+最大高度: ${maxHeight}px
+请减少聊天内容后重试。`);
+      }
+
+      // 创建画布
       const canvas = document.createElement('canvas');
       canvas.width = 1080;
-      canvas.height = Math.max(2412, totalContentHeight);
+      canvas.height = maxHeight;
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('无法获取canvas上下文');
 
@@ -153,7 +162,7 @@ export default function Home() {
       link.click();
     } catch (error) {
       console.error('导出失败:', error);
-      alert('导出图片失败，请稍后重试');
+      alert(error instanceof Error ? error.message : '导出图片失败，请稍后重试');
     }
   };
 
