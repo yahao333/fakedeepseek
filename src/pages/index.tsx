@@ -3,7 +3,7 @@
 // import { GeistSans } from "geist/font/sans"
 // import { GeistMono } from "geist/font/mono"
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import ChatMessage from '../components/ChatMessage';
 import type { ChatMessage as ChatMessageType } from '../types/chat';
@@ -13,6 +13,35 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [images, setImages] = useState<{
+    top: HTMLImageElement | null;
+    title: HTMLImageElement | null;
+    mid: HTMLImageElement | null;
+    bottom: HTMLImageElement | null;
+  }>({ top: null, title: null, mid: null, bottom: null });
+
+  useEffect(() => {
+    const loadImage = (src: string): Promise<HTMLImageElement> => {
+      return new Promise((resolve, reject) => {
+        const img = new window.Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src.startsWith('/') ? src : `/${src}`;
+      });
+    };
+
+    Promise.all([
+      loadImage('images/top.png'),
+      loadImage('images/title.png'),
+      loadImage('images/mid.png'),
+      loadImage('images/bottom.png'),
+    ]).then(([top, title, mid, bottom]) => {
+      setImages({ top, title, mid, bottom });
+    }).catch(error => {
+      console.error('图片加载失败:', error);
+    });
+  }, []);
 
   const handleAddMessage = () => {
     if (!input || !response) return;
@@ -28,39 +57,66 @@ export default function Home() {
   };
 
   const handleExport = async () => {
-    if (!chatContainerRef.current || messages.length === 0) return;
+    if (!chatContainerRef.current || messages.length === 0 || 
+        !images.top || !images.title || !images.mid || !images.bottom) return;
 
     try {
-      // 临时创建一个克隆节点用于导出
-      const cloneContainer = chatContainerRef.current.cloneNode(true) as HTMLElement;
-      document.body.appendChild(cloneContainer);
+      // 创建临时容器
+      const tempContainer = document.createElement('div');
+      tempContainer.style.position = 'absolute';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.width = '1080px';
+      document.body.appendChild(tempContainer);
+
+      // 创建画布
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 2412;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('无法获取canvas上下文');
+
+      // 绘制顶部图片
+      ctx.drawImage(images.top, 0, 0, 1080, images.top.height);
+      let currentY = images.top.height;
+
+      // 绘制标题图片
+      ctx.drawImage(images.title, 0, currentY, 1080, images.title.height);
+      currentY += images.title.height;
+
+      // 克隆并处理聊天内容
+      const chatClone = chatContainerRef.current.cloneNode(true) as HTMLElement;
+      tempContainer.appendChild(chatClone);
       
-      // 设置克隆节点的样式
-      cloneContainer.style.position = 'absolute';
-      cloneContainer.style.left = '-9999px';
-      cloneContainer.style.width = '1080px';  // 设置固定宽度
-      
-      // 确保使用兼容的颜色格式
-      const elements = cloneContainer.getElementsByTagName('*');
+      // 处理颜色兼容性
+      const elements = chatClone.getElementsByTagName('*');
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i] as HTMLElement;
         const style = window.getComputedStyle(el);
         if (style.backgroundColor.includes('oklch')) {
-          el.style.backgroundColor = '#ffffff';  // 替换为兼容的颜色
+          el.style.backgroundColor = '#ffffff';
         }
       }
 
-      const canvas = await html2canvas(cloneContainer, {
+      // 绘制聊天内容
+      const chatCanvas = await html2canvas(chatClone, {
         width: 1080,
-        height: 2412,
         backgroundColor: '#F9FAFB',
         scale: 2,
         useCORS: true,
         logging: false,
       });
+      ctx.drawImage(chatCanvas, 0, currentY);
+      currentY += chatCanvas.height;
 
-      // 清理临时节点
-      document.body.removeChild(cloneContainer);
+      // 绘制中间图片
+      ctx.drawImage(images.mid, 0, currentY, 1080, images.mid.height);
+      currentY += images.mid.height;
+
+      // 绘制底部图片
+      ctx.drawImage(images.bottom, 0, currentY, 1080, images.bottom.height);
+
+      // 清理临时元素
+      document.body.removeChild(tempContainer);
 
       // 下载图片
       const link = document.createElement('a');
@@ -77,7 +133,9 @@ export default function Home() {
     <div className="min-h-screen bg-[#F9FAFB]">
       <div className="max-w-4xl mx-auto p-4">
         <h1 className="text-2xl font-bold mb-6 text-gray-900">DeepSeek Chat 记录生成器</h1>
-        
+            {/* 添加测试图片 */}
+        {/* <img src="/images/buttom.png" alt="test" style={{ width: 100 }} /> */}
+
         <div className="mb-6 space-y-4 bg-white rounded-lg p-6 shadow-sm">
           <textarea
             className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
