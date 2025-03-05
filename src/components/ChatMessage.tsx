@@ -9,23 +9,27 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === 'user';
   const contentRef = useRef<HTMLDivElement>(null);
   const [marginLeft, setMarginLeft] = useState(isUser ? '100px' : '0');
+  const [bgWidth, setBgWidth] = useState('auto');
 
   useEffect(() => {
-    if (isUser && contentRef.current) {
-      const containerWidth = 380; // 最大宽度
+    if (contentRef.current) {
       const textWidth = contentRef.current.scrollWidth;
       console.log('textWidth:', textWidth);
-      const fontSize = 22; // 字体大小
-      const charsPerLine = Math.floor(containerWidth / (fontSize * 0.75)); // 估算每行字符数
+      const fontSize = 22;
+      const containerWidth = 380;
       
-      // 如果文本内容不足一行
-      if (textWidth < containerWidth) {
-        // 计算剩余空间并设置左边距
-        const remainingSpace = containerWidth - textWidth - 12;
-        setMarginLeft(`${remainingSpace + 100}px`);
-      } else {
-        // 如果文本超过一行，使用默认左边距
-        setMarginLeft('100px');
+      if (isUser) {
+        // 如果文本内容不足一行
+        if (textWidth < containerWidth) {
+          // 计算剩余空间并设置左边距
+          const remainingSpace = containerWidth - textWidth - 12;
+          setMarginLeft(`${remainingSpace + 100}px`);
+          setBgWidth(`${textWidth + 32}px`); // 32px 为左右padding的总和
+        } else {
+          // 如果文本超过一行，使用默认值
+          setMarginLeft('100px');
+          setBgWidth('auto');
+        }
       }
     }
   }, [message.content, isUser]);
@@ -48,7 +52,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             style={{
               bottom: '10px',
               left: '80px',
-              right: '10px',
+              width: isUser ? bgWidth : 'auto',
               height: '100%',
               borderRadius: '32px',
               padding: '16px'
@@ -66,7 +70,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
               paddingRight: isUser ? '10px' : '0',
               marginBottom: isUser ? '40px' : '0',
               marginRight: isUser ? '0' : '0',
-              marginLeft: marginLeft // 使用计算后的 marginLeft
+              marginLeft: marginLeft
             }}
           >
             {message.content}
