@@ -68,6 +68,33 @@ export default function Home() {
       tempContainer.style.width = '1080px';
       document.body.appendChild(tempContainer);
 
+      // 克隆并处理聊天内容
+      const chatClone = chatContainerRef.current.cloneNode(true) as HTMLElement;
+      tempContainer.appendChild(chatClone);
+      
+      // 移除边框和阴影，设置背景色
+      chatClone.style.border = 'none';
+      chatClone.style.boxShadow = 'none';
+      chatClone.style.backgroundColor = '#F9FAFB';
+      
+      // 处理所有子元素的样式
+      const elements = chatClone.getElementsByTagName('*');
+      for (let i = 0; i < elements.length; i++) {
+        const el = elements[i] as HTMLElement;
+        const style = window.getComputedStyle(el);
+        // 处理颜色兼容性
+        if (style.backgroundColor.includes('oklch')) {
+          el.style.backgroundColor = '#ffffff';
+        }
+        // 移除边框和阴影
+        if (style.border) {
+          el.style.border = 'none';
+        }
+        if (style.boxShadow) {
+          el.style.boxShadow = 'none';
+        }
+      }
+
       // 创建画布
       const canvas = document.createElement('canvas');
       canvas.width = 1080;
@@ -82,20 +109,6 @@ export default function Home() {
       // 绘制标题图片
       ctx.drawImage(images.title, 0, currentY, 1080, images.title.height);
       currentY += images.title.height;
-
-      // 克隆并处理聊天内容
-      const chatClone = chatContainerRef.current.cloneNode(true) as HTMLElement;
-      tempContainer.appendChild(chatClone);
-      
-      // 处理颜色兼容性
-      const elements = chatClone.getElementsByTagName('*');
-      for (let i = 0; i < elements.length; i++) {
-        const el = elements[i] as HTMLElement;
-        const style = window.getComputedStyle(el);
-        if (style.backgroundColor.includes('oklch')) {
-          el.style.backgroundColor = '#ffffff';
-        }
-      }
 
       // 绘制聊天内容
       const chatCanvas = await html2canvas(chatClone, {
