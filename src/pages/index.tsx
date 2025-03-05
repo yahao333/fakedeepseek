@@ -12,7 +12,7 @@ export default function Home() {
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<{
     top: HTMLImageElement | null;
