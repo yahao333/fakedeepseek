@@ -16,7 +16,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     if (contentRef.current) {
       const textWidth = contentRef.current.scrollWidth;
       console.log('textWidth:', textWidth);
-      const fontSize = 22;
       const containerWidth = 380;
       
       if (isUser) {
