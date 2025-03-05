@@ -75,18 +75,16 @@ export default function Home() {
       // 移除边框和阴影，设置纯白背景色
       chatClone.style.border = 'none';
       chatClone.style.boxShadow = 'none';
-      chatClone.style.backgroundColor = '#ffffff';  // 改为纯白色
+      chatClone.style.backgroundColor = '#ffffff';
       
       // 处理所有子元素的样式
       const elements = chatClone.getElementsByTagName('*');
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i] as HTMLElement;
         const style = window.getComputedStyle(el);
-        // 处理颜色兼容性和背景色
         if (style.backgroundColor && style.backgroundColor !== 'rgba(0, 0, 0, 0)') {
-          el.style.backgroundColor = '#ffffff';  // 所有非透明背景改为纯白
+          el.style.backgroundColor = '#ffffff';
         }
-        // 移除边框和阴影
         if (style.border) {
           el.style.border = 'none';
         }
@@ -95,10 +93,27 @@ export default function Home() {
         }
       }
 
-      // 创建画布
+      // 先获取聊天内容的高度
+      const chatCanvas = await html2canvas(chatClone, {
+        width: 1080,
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+
+      // 计算总高度
+      const totalContentHeight = 
+        images.top.height + 
+        images.title.height + 
+        chatCanvas.height + 
+        images.mid.height + 
+        images.bottom.height;
+
+      // 创建画布，确保最小高度为2412
       const canvas = document.createElement('canvas');
       canvas.width = 1080;
-      canvas.height = 2412;
+      canvas.height = Math.max(2412, totalContentHeight);
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('无法获取canvas上下文');
 
@@ -111,19 +126,19 @@ export default function Home() {
       currentY += images.title.height;
 
       // 绘制聊天内容
-      const chatCanvas = await html2canvas(chatClone, {
-        width: 1080,
-        backgroundColor: '#ffffff',  // 设置为纯白色
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
       ctx.drawImage(chatCanvas, 0, currentY);
       currentY += chatCanvas.height;
 
       // 绘制中间图片
       ctx.drawImage(images.mid, 0, currentY, 1080, images.mid.height);
       currentY += images.mid.height;
+
+      // 如果有空白区域，用白色填充
+      if (currentY < canvas.height - images.bottom.height) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, currentY, 1080, canvas.height - images.bottom.height - currentY);
+        currentY = canvas.height - images.bottom.height;
+      }
 
       // 绘制底部图片
       ctx.drawImage(images.bottom, 0, currentY, 1080, images.bottom.height);
