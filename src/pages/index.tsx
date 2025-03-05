@@ -246,7 +246,7 @@ export default function Home() {
 
         <div 
           ref={chatContainerRef} 
-          className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm min-h-[200px]"
+          className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm min-h-[200px] mb-8"
         >
           {messages.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
@@ -268,6 +268,28 @@ export default function Home() {
             ))
           )}
         </div>
+
+        <footer className="text-center py-6 text-gray-500 border-t border-gray-200">
+          <div className="space-y-2">
+            <div>
+              <a 
+                href="https://x.com/1zhaofengyue"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#3B82F6] hover:text-[#2563EB] transition-colors duration-200 inline-flex items-center space-x-1"
+              >
+                <span>@1zhaofengyue</span>
+                <svg 
+                  className="w-4 h-4" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
