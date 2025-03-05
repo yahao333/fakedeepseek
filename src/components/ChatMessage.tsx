@@ -10,7 +10,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 
   return (
     <div className={`chat-message ${message.role}`}>
-      <div className={`flex items-start ${isUser ? 'justify-end' : ''}`}>
+      <div className={`flex items-start ${isUser ? '' : ''}`}>
         {message.role === 'assistant' && (
           <img 
             src="/images/whale.png" 
@@ -37,13 +37,13 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             style={{ 
               color: '#111827', 
               fontSize: '22px', 
-              textAlign: isUser ? 'right' : 'left',
-              maxWidth: '80%',
+              textAlign: 'left', // 根据角色设置对齐
+              maxWidth: isUser ? '380px' : '400px', // 用户消息固定为300px
               overflowWrap: 'break-word',
               paddingRight: isUser ? '10px' : '0',
               marginBottom: isUser ? '40px' : '0',
-              marginRight: isUser ? '390px' : '0',
-              marginLeft: isUser ? '16px' : '0'
+              marginRight: isUser ? '0' : '0',
+              marginLeft: isUser ? '100px' : '0'
             }}
           >
             {message.content}
