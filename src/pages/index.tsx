@@ -31,10 +31,16 @@ export default function Home() {
     if (!chatContainerRef.current || messages.length === 0) return;
 
     try {
-      const canvas = await html2canvas(chatContainerRef.current);
+      const canvas = await html2canvas(chatContainerRef.current, {
+        width: 1080,
+        height: 2412,
+        backgroundColor: '#F9FAFB', // 设置背景色为浅灰色
+        scale: 2, // 提高导出图片质量
+        useCORS: true, // 允许加载跨域图片
+      });
       const link = document.createElement('a');
       link.download = 'chat-export.png';
-      link.href = canvas.toDataURL();
+      link.href = canvas.toDataURL('image/png', 1.0);
       link.click();
     } catch (error) {
       console.error('导出失败:', error);
