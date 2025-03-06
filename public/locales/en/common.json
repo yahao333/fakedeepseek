@@ -1,6 +1,6 @@
 {
   "title": "DeepSeek Chat Record Generator",
-  "description": "A DeepSeek-like interface",
+  "description": "Create beautiful chat records in DeepSeek style. Support for multiple languages and easy export to images.",
   "Clear All": "Clear All",
   "User Message": "User Message",
   "Assistant Response": "Assistant Response",
@@ -12,5 +12,9 @@
   "Please enter a user message": "Please enter a user message",
   "Please enter an assistant response": "Please enter an assistant response",
   "No chat records": "No chat records",
-  "Are you sure to clear all chat records?": "Are you sure to clear all chat records?"
+  "Are you sure to clear all chat records?": "Are you sure to clear all chat records?",
+  "Delete": "Delete",
+  "meta": {
+    "keywords": "DeepSeek, Chat Record, Image Generator, AI Chat, Screenshot Tool"
+  }
 } 

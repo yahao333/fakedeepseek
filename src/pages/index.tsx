@@ -10,6 +10,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import html2canvas from 'html2canvas';
 import ChatMessage from '../components/ChatMessage';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import SEO from '../components/SEO';
 import type { ChatMessage as ChatMessageType } from '../types/chat';
 
 export default function Home() {
@@ -203,108 +204,111 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto p-4">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-          <div className="flex items-center space-x-4">
-            <LanguageSwitcher />
-            <button
-              onClick={handleClearAll}
-              className="px-4 py-2 text-red-600 hover:text-red-700 transition-colors duration-200"
-            >
-              {t('Clear All')}
-            </button>
-          </div>
-        </div>
-
-        <div className="mb-6 space-y-4 bg-white rounded-lg p-6 shadow-sm">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">{t('User Message')}</label>
-            <textarea
-              className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
-              placeholder={t('Enter user message...')}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              rows={4}
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">{t('Assistant Response')}</label>
-            <textarea
-              className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
-              placeholder={t('Enter assistant response...')}
-              value={response}
-              onChange={(e) => setResponse(e.target.value)}
-              rows={4}
-            />
-          </div>
-          <div className="flex space-x-4">
-            <button
-              onClick={handleAddMessage}
-              disabled={isLoading}
-              className="px-6 py-2.5 bg-[#3B82F6] text-white rounded-lg hover:bg-[#2563EB] transition-colors duration-200 disabled:bg-gray-400"
-            >
-              {t('Add Conversation')}
-            </button>
-            <button
-              onClick={handleExport}
-              disabled={isLoading || messages.length === 0}
-              className="px-6 py-2.5 bg-[#4B5563] text-white rounded-lg hover:bg-[#374151] transition-colors duration-200 disabled:bg-gray-400"
-            >
-              {isLoading ? t('Exporting...') : t('Export Image')}
-            </button>
-          </div>
-        </div>
-
-        <div 
-          ref={chatContainerRef} 
-          className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm min-h-[200px] mb-8"
-        >
-          {messages.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
-              {t('No chat records')}
-            </div>
-          ) : (
-            messages.map((message, index) => (
-              <div key={index} className="relative group">
-                <ChatMessage message={message} />
-                {index % 2 === 1 && (
-                  <button
-                    onClick={() => handleDeleteMessage(index)}
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-[#EF4444] hover:text-[#DC2626] transition-opacity duration-200"
-                  >
-                    {t('Delete')}
-                  </button>
-                )}
-              </div>
-            ))
-          )}
-        </div>
-
-        <footer className="text-center py-6 text-gray-500 border-t border-gray-200">
-          <div className="space-y-2">
-            <div>
-              <a 
-                href="https://x.com/1zhaofengyue"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#3B82F6] hover:text-[#2563EB] transition-colors duration-200 inline-flex items-center space-x-1"
+    <>
+      <SEO />
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-4xl mx-auto p-4">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <div className="flex items-center space-x-4">
+              <LanguageSwitcher />
+              <button
+                onClick={handleClearAll}
+                className="px-4 py-2 text-red-600 hover:text-red-700 transition-colors duration-200"
               >
-                <span>@1zhaofengyue</span>
-                <svg 
-                  className="w-4 h-4" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-              </a>
+                {t('Clear All')}
+              </button>
             </div>
           </div>
-        </footer>
+
+          <div className="mb-6 space-y-4 bg-white rounded-lg p-6 shadow-sm">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">{t('User Message')}</label>
+              <textarea
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
+                placeholder={t('Enter user message...')}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                rows={4}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">{t('Assistant Response')}</label>
+              <textarea
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
+                placeholder={t('Enter assistant response...')}
+                value={response}
+                onChange={(e) => setResponse(e.target.value)}
+                rows={4}
+              />
+            </div>
+            <div className="flex space-x-4">
+              <button
+                onClick={handleAddMessage}
+                disabled={isLoading}
+                className="px-6 py-2.5 bg-[#3B82F6] text-white rounded-lg hover:bg-[#2563EB] transition-colors duration-200 disabled:bg-gray-400"
+              >
+                {t('Add Conversation')}
+              </button>
+              <button
+                onClick={handleExport}
+                disabled={isLoading || messages.length === 0}
+                className="px-6 py-2.5 bg-[#4B5563] text-white rounded-lg hover:bg-[#374151] transition-colors duration-200 disabled:bg-gray-400"
+              >
+                {isLoading ? t('Exporting...') : t('Export Image')}
+              </button>
+            </div>
+          </div>
+
+          <div 
+            ref={chatContainerRef} 
+            className="border border-gray-200 rounded-lg bg-white p-6 shadow-sm min-h-[200px] mb-8"
+          >
+            {messages.length === 0 ? (
+              <div className="text-center text-gray-500 py-8">
+                {t('No chat records')}
+              </div>
+            ) : (
+              messages.map((message, index) => (
+                <div key={index} className="relative group">
+                  <ChatMessage message={message} />
+                  {index % 2 === 1 && (
+                    <button
+                      onClick={() => handleDeleteMessage(index)}
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-[#EF4444] hover:text-[#DC2626] transition-opacity duration-200"
+                    >
+                      {t('Delete')}
+                    </button>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+
+          <footer className="text-center py-6 text-gray-500 border-t border-gray-200">
+            <div className="space-y-2">
+              <div>
+                <a 
+                  href="https://x.com/1zhaofengyue"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#3B82F6] hover:text-[#2563EB] transition-colors duration-200 inline-flex items-center space-x-1"
+                >
+                  <span>@1zhaofengyue</span>
+                  <svg 
+                    className="w-4 h-4" 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

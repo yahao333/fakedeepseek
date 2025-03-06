@@ -1,6 +1,6 @@
 {
   "title": "DeepSeek チャット記録ジェネレーター",
-  "description": "DeepSeek風インターフェース",
+  "description": "DeepSeek風の美しいチャット記録を作成。多言語対応、画像出力が簡単。",
   "Clear All": "全て消去",
   "User Message": "ユーザーメッセージ",
   "Assistant Response": "アシスタントの返答",
@@ -13,5 +13,8 @@
   "Please enter an assistant response": "アシスタントの返答を入力してください",
   "No chat records": "チャット記録がありません",
   "Are you sure to clear all chat records?": "全てのチャット記録を消去してもよろしいですか？",
-  "Delete": "削除"
+  "Delete": "削除",
+  "meta": {
+    "keywords": "DeepSeek, チャット記録, 画像生成, AIチャット, スクリーンショットツール"
+  }
 } 
