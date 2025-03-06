@@ -1,0 +1,17 @@
+{
+  "title": "DeepSeek チャット記録ジェネレーター",
+  "description": "DeepSeek風インターフェース",
+  "Clear All": "全て消去",
+  "User Message": "ユーザーメッセージ",
+  "Assistant Response": "アシスタントの返答",
+  "Enter user message...": "ユーザーメッセージを入力...",
+  "Enter assistant response...": "アシスタントの返答を入力...",
+  "Add Conversation": "会話を追加",
+  "Export Image": "画像出力",
+  "Exporting...": "出力中...",
+  "Please enter a user message": "ユーザーメッセージを入力してください",
+  "Please enter an assistant response": "アシスタントの返答を入力してください",
+  "No chat records": "チャット記録がありません",
+  "Are you sure to clear all chat records?": "全てのチャット記録を消去してもよろしいですか？",
+  "Delete": "削除"
+} 

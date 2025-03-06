@@ -1,0 +1,17 @@
+{
+  "title": "DeepSeek 对话记录生成器",
+  "description": "类 DeepSeek 界面",
+  "Clear All": "清空记录",
+  "User Message": "用户消息",
+  "Assistant Response": "助手回复",
+  "Enter user message...": "输入用户消息...",
+  "Enter assistant response...": "输入助手回复...",
+  "Add Conversation": "添加对话",
+  "Export Image": "导出图片",
+  "Exporting...": "导出中...",
+  "Please enter a user message": "请输入用户消息",
+  "Please enter an assistant response": "请输入助手回复",
+  "No chat records": "暂无聊天记录",
+  "Are you sure to clear all chat records?": "确定要清空所有聊天记录吗？",
+  "Delete": "删除"
+} 

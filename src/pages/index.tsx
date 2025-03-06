@@ -4,11 +4,16 @@
 // import { GeistMono } from "geist/font/mono"
 
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'next-i18next';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import html2canvas from 'html2canvas';
 import ChatMessage from '../components/ChatMessage';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import type { ChatMessage as ChatMessageType } from '../types/chat';
 
 export default function Home() {
+  const { t } = useTranslation('common');
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
@@ -46,11 +51,11 @@ export default function Home() {
 
   const handleAddMessage = () => {
     if (!input.trim()) {
-      alert('请输入用户消息');
+      alert(t('Please enter a user message'));
       return;
     }
     if (!response.trim()) {
-      alert('请输入助手回复');
+      alert(t('Please enter an assistant response'));
       return;
     }
     
@@ -72,10 +77,10 @@ export default function Home() {
 
   const handleClearAll = () => {
     if (messages.length === 0) {
-      alert('当前没有聊天记录');
+      alert(t('No chat records'));
       return;
     }
-    if (window.confirm('确定要清空所有聊天记录吗？')) {
+    if (window.confirm(t('Are you sure to clear all chat records?'))) {
       setMessages([]);
       setInput('');
       setResponse('');
@@ -201,31 +206,34 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">DeepSeek Chat 记录生成器</h1>
-          <button
-            onClick={handleClearAll}
-            className="px-4 py-2 text-red-600 hover:text-red-700 transition-colors duration-200"
-          >
-            清空记录
-          </button>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+            <button
+              onClick={handleClearAll}
+              className="px-4 py-2 text-red-600 hover:text-red-700 transition-colors duration-200"
+            >
+              {t('Clear All')}
+            </button>
+          </div>
         </div>
 
         <div className="mb-6 space-y-4 bg-white rounded-lg p-6 shadow-sm">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">用户消息</label>
+            <label className="block text-sm font-medium text-gray-700">{t('User Message')}</label>
             <textarea
               className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
-              placeholder="输入用户消息..."
+              placeholder={t('Enter user message...')}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               rows={4}
             />
           </div>
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">助手回复</label>
+            <label className="block text-sm font-medium text-gray-700">{t('Assistant Response')}</label>
             <textarea
               className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent"
-              placeholder="输入助手回复..."
+              placeholder={t('Enter assistant response...')}
               value={response}
               onChange={(e) => setResponse(e.target.value)}
               rows={4}
@@ -237,14 +245,14 @@ export default function Home() {
               disabled={isLoading}
               className="px-6 py-2.5 bg-[#3B82F6] text-white rounded-lg hover:bg-[#2563EB] transition-colors duration-200 disabled:bg-gray-400"
             >
-              添加对话
+              {t('Add Conversation')}
             </button>
             <button
               onClick={handleExport}
               disabled={isLoading || messages.length === 0}
               className="px-6 py-2.5 bg-[#4B5563] text-white rounded-lg hover:bg-[#374151] transition-colors duration-200 disabled:bg-gray-400"
             >
-              {isLoading ? '导出中...' : '导出图片'}
+              {isLoading ? t('Exporting...') : t('Export Image')}
             </button>
           </div>
         </div>
@@ -255,7 +263,7 @@ export default function Home() {
         >
           {messages.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
-              暂无聊天记录，请添加对话
+              {t('No chat records')}
             </div>
           ) : (
             messages.map((message, index) => (
@@ -266,7 +274,7 @@ export default function Home() {
                     onClick={() => handleDeleteMessage(index)}
                     className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-[#EF4444] hover:text-[#DC2626] transition-opacity duration-200"
                   >
-                    删除
+                    {t('Delete')}
                   </button>
                 )}
               </div>
@@ -298,4 +306,12 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
 }

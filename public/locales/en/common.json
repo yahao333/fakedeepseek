@@ -1,0 +1,16 @@
+{
+  "title": "DeepSeek Chat Record Generator",
+  "description": "A DeepSeek-like interface",
+  "Clear All": "Clear All",
+  "User Message": "User Message",
+  "Assistant Response": "Assistant Response",
+  "Enter user message...": "Enter user message...",
+  "Enter assistant response...": "Enter assistant response...",
+  "Add Conversation": "Add Conversation",
+  "Export Image": "Export Image",
+  "Exporting...": "Exporting...",
+  "Please enter a user message": "Please enter a user message",
+  "Please enter an assistant response": "Please enter an assistant response",
+  "No chat records": "No chat records",
+  "Are you sure to clear all chat records?": "Are you sure to clear all chat records?"
+} 

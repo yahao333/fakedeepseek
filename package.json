@@ -11,9 +11,12 @@
   "dependencies": {
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
+    "i18next": "^24.2.2",
     "next": "15.2.1",
+    "next-i18next": "^15.4.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-i18next": "^15.4.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
